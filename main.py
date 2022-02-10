@@ -68,9 +68,8 @@ def extract_metadata(path: str):
     mets_path = Path(path, "data/mets.xml")
     root = etree.parse(str(mets_path))
     metadata["cp_id"] = root.xpath(
-        "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'SUBMITTING AGENT'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATION CODE']/text()"
+        "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATIONCODE']/text()"
     )[0]
-
     # Generated metadata
     metadata["pid"] = get_pid(configParser.app_cfg['aip-creator']['pid_url'])
 
