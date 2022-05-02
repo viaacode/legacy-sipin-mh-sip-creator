@@ -1,5 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:premis="http://www.loc.gov/premis/v3" xmlns:schema="http://schema.org/" xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exclude-result-prefixes="dc premis dcterms xsi schema" version="1.1">
     <xsl:output version="1.0" encoding="UTF-8" standalone="yes" indent="yes" />
+    <xsl:param name="cp_id" />
+    <xsl:param name="sp_name" />
+    <xsl:param name="pid" />
+    <xsl:param name="dc_source" />
+    <xsl:param name="md5" />
     <xsl:template match="premis:object">
         <mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
             <!-- Descriptive -->
@@ -11,8 +16,28 @@
             </xsl:element>
             <!-- Dynamic-->
             <xsl:element name="mhs:Dynamic">
+                <!-- CP ID -->
+                <xsl:element name="CP_id">
+                    <xsl:value-of select="$cp_id" />
+                </xsl:element>
+                <!-- SP name -->
+                <xsl:element name="sp_name">
+                    <xsl:value-of select="$sp_name" />
+                </xsl:element>
                 <!-- PID -->
-                <xsl:apply-templates select="dcterms:identifier" />
+                <xsl:element name="PID">
+                    <xsl:value-of select="$pid" />
+                </xsl:element>
+                <!-- source -->
+                <xsl:element name="dc_source">
+                    <xsl:value-of select="$dc_source" />
+                </xsl:element>
+                <!-- md5 -->
+                <xsl:element name="md5">
+                    <xsl:value-of select="$md5" />
+                </xsl:element>
+                <!-- PID -->
+                <!-- <xsl:apply-templates select="dcterms:identifier" /> -->
                 <!-- local ID -->
                 <xsl:apply-templates select="premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']" />
                 <!-- Other IDs -->

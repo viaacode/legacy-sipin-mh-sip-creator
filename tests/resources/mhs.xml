@@ -5,7 +5,11 @@
     <mh:Description>Dit is een beschrijving</mh:Description>
   </mhs:Descriptive>
   <mhs:Dynamic>
+    <CP_id>CP ID</CP_id>
+    <sp_name>SP name</sp_name>
     <PID>PID</PID>
+    <dc_source>basename</dc_source>
+    <md5>md5</md5>
     <dc_identifier_localid>localid</dc_identifier_localid>
     <dc_identifier_localids>
       <Object_number>objnum</Object_number>
