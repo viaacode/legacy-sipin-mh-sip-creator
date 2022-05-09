@@ -79,7 +79,7 @@ def extract_metadata(path: str):
     return metadata
 
 
-def create_sidecar(path: Path, metadata: dict):
+def create_sidecar(path: str, metadata: dict):
     # Parameters not present in the input XML
     basename = metadata["basename"]
     cp_id = metadata["cp_id"]
@@ -93,7 +93,7 @@ def create_sidecar(path: Path, metadata: dict):
 
     # Descriptive metadata
     # TODO: Get the path dynamically
-    metadata_path = Path(path, "data/metadata/descriptive/dc_ie.xml")
+    metadata_path = Path(path, "data/metadata/descriptive/dc.xml")
 
     # XSLT transformation
     transform = etree.XSLT(xslt)
@@ -118,7 +118,7 @@ def handle_event(event: Event):
         return
 
     # Path to unzipped bag
-    path = event.get_data()["destination"]
+    path: str = event.get_data()["destination"]
 
     # Extract metadata from bag info and mets xmls
     metadata: dict = extract_metadata(path)
