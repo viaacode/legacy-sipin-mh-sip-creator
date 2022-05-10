@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 import re
 import requests
 import shutil
@@ -24,17 +23,21 @@ APP_NAME = "aip-creator"
 configParser = ConfigParser()
 log = logging.get_logger(__name__, config=configParser)
 
-client = pulsar.Client(f"pulsar://{configParser.app_cfg['pulsar']['host']}:{configParser.app_cfg['pulsar']['port']}")
+client = pulsar.Client(
+    f"pulsar://{configParser.app_cfg['pulsar']['host']}:{configParser.app_cfg['pulsar']['port']}"
+)
 
 
 @retry(pulsar.ConnectError, tries=10, delay=1, backoff=2)
 def create_producer():
-    return client.create_producer(configParser.app_cfg['aip-creator']['producer_topic'])
+    return client.create_producer(configParser.app_cfg["aip-creator"]["producer_topic"])
 
 
 @retry(pulsar.ConnectError, tries=10, delay=1, backoff=2)
 def subscribe():
-    return client.subscribe(configParser.app_cfg['aip-creator']['consumer_topic'], APP_NAME)
+    return client.subscribe(
+        configParser.app_cfg["aip-creator"]["consumer_topic"], APP_NAME
+    )
 
 
 producer = create_producer()
@@ -71,36 +74,39 @@ def extract_metadata(path: str):
         "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATIONCODE']/text()"
     )[0]
     # Generated metadata
-    metadata["pid"] = get_pid(configParser.app_cfg['aip-creator']['pid_url'])
+    metadata["pid"] = get_pid(configParser.app_cfg["aip-creator"]["pid_url"])
 
     return metadata
 
 
-def create_sidecar(metadata: dict):
+def create_sidecar(path: str, metadata: dict):
+    # Parameters not present in the input XML
     basename = metadata["basename"]
     cp_id = metadata["cp_id"]
     md5 = metadata["md5"]
     pid = metadata["pid"]
     sp_name = "sipin"
 
-    root = etree.Element("MediaHAVEN_external_metadata")
-    etree.SubElement(root, "title").text = basename
+    # The XSLT
+    xslt_path = Path("metadata.xslt")
+    xslt = etree.parse(str(xslt_path.resolve()))
 
-    mdprops = etree.SubElement(root, "MDProperties")
-    etree.SubElement(mdprops, "CP_id").text = cp_id
-    etree.SubElement(mdprops, "sp_name").text = sp_name
-    etree.SubElement(mdprops, "PID").text = pid
-    etree.SubElement(mdprops, "dc_source").text = basename
-    etree.SubElement(mdprops, "dc_identifier_localid").text = basename.split(".")[0]
+    # Descriptive metadata
+    # TODO: Get the path dynamically
+    metadata_path = Path(path, "data/metadata/descriptive/dc.xml")
 
-    local_ids = etree.SubElement(mdprops, "dc_identifier_localids")
-    etree.SubElement(local_ids, "id").text = basename
+    # XSLT transformation
+    transform = etree.XSLT(xslt)
+    tr = transform(
+        etree.parse(str(metadata_path)),
+        cp_id=etree.XSLT.strparam(cp_id),
+        sp_name=etree.XSLT.strparam(sp_name),
+        pid=etree.XSLT.strparam(pid),
+        dc_source=etree.XSLT.strparam(basename),
+        md5=etree.XSLT.strparam(md5),
+    ).getroot()
+    return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
-    etree.SubElement(root, "md5").text = md5
-
-    return etree.tostring(
-        root, pretty_print=True, encoding="UTF-8", xml_declaration=True
-    )
 
 def handle_event(event: Event):
     """
@@ -112,13 +118,13 @@ def handle_event(event: Event):
         return
 
     # Path to unzipped bag
-    path = event.get_data()["destination"]
+    path: str = event.get_data()["destination"]
 
     # Extract metadata from bag info and mets xmls
     metadata: dict = extract_metadata(path)
 
     # Build a mediahaven sidecar with extracted xmls
-    sidecar = create_sidecar(metadata)
+    sidecar = create_sidecar(path, metadata)
 
     filename = metadata["filename"]
     essence_filepath = Path(path, filename)
@@ -129,16 +135,16 @@ def handle_event(event: Event):
         xml_file.write(sidecar)
 
     # Move file(s) to AIP folder with PID as filename(s)
-    aip_filepath = Path(configParser.app_cfg['aip-creator']['aip_folder'], metadata["pid"])
-
-    shutil.move(
-        essence_filepath, aip_filepath.with_suffix(metadata["file_extension"])
+    aip_filepath = Path(
+        configParser.app_cfg["aip-creator"]["aip_folder"], metadata["pid"]
     )
+
+    shutil.move(essence_filepath, aip_filepath.with_suffix(metadata["file_extension"]))
     shutil.move(sidecar_filepath, aip_filepath.with_suffix(".xml"))
 
     # Send event on topic
     data = {
-        "host": configParser.app_cfg['aip-creator']['host'],
+        "host": configParser.app_cfg["aip-creator"]["host"],
         "paths": [
             str(aip_filepath.with_suffix(metadata["file_extension"])),
             str(aip_filepath.with_suffix(".xml")),
@@ -151,24 +157,24 @@ def handle_event(event: Event):
 
     send_event(data, path, event.correlation_id)
 
+
 def send_event(data: dict, subject: str, correlation_id: str):
     attributes = EventAttributes(
-        type=configParser.app_cfg['aip-creator']['producer_topic'],
+        type=configParser.app_cfg["aip-creator"]["producer_topic"],
         source=APP_NAME,
         subject=subject,
         correlation_id=correlation_id,
     )
 
     event = Event(attributes, data)
-    create_msg = PulsarBinding.to_protocol(
-        event, CEMessageMode.STRUCTURED
-    )
+    create_msg = PulsarBinding.to_protocol(event, CEMessageMode.STRUCTURED)
 
     producer.send(
         create_msg.data,
         properties=create_msg.attributes,
         event_timestamp=event.get_event_time_as_int(),
     )
+
 
 if __name__ == "__main__":
     while True:
