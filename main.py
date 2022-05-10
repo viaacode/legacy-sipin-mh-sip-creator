@@ -138,6 +138,7 @@ def handle_event(event: Event):
 
     # Send event on topic
     data = {
+        "source": path,
         "host": configParser.app_cfg['aip-creator']['host'],
         "paths": [
             str(aip_filepath.with_suffix(metadata["file_extension"])),
