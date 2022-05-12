@@ -78,7 +78,7 @@ def extract_metadata(path: str):
     )
     premis_namespaces = {
         "premis": "http://www.loc.gov/premis/v3",
-        "xsi": "http://www.w3.org/2001/XMLSchemainstance",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     }
     root_premis = etree.parse(str(premis_path))
     metadata["original_filename"] = root_premis.xpath(
