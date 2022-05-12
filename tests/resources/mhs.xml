@@ -8,11 +8,11 @@
     <CP_id>CP ID</CP_id>
     <sp_name>SP name</sp_name>
     <PID>PID</PID>
-    <dc_source>basename</dc_source>
     <md5>md5</md5>
     <dc_identifier_localid>localid</dc_identifier_localid>
     <dc_identifier_localids>
       <Object_number>objnum</Object_number>
+      <bestandsnaam>name</bestandsnaam>
     </dc_identifier_localids>
     <dcterms_created>2022-03-29</dcterms_created>
     <dcterms_issued>2022-03-30</dcterms_issued>

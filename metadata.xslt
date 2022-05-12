@@ -3,7 +3,7 @@
     <xsl:param name="cp_id" />
     <xsl:param name="sp_name" />
     <xsl:param name="pid" />
-    <xsl:param name="dc_source" />
+    <xsl:param name="original_filename" />
     <xsl:param name="md5" />
     <xsl:template match="premis:object">
         <mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
@@ -28,10 +28,6 @@
                 <xsl:element name="PID">
                     <xsl:value-of select="$pid" />
                 </xsl:element>
-                <!-- source -->
-                <xsl:element name="dc_source">
-                    <xsl:value-of select="$dc_source" />
-                </xsl:element>
                 <!-- md5 -->
                 <xsl:element name="md5">
                     <xsl:value-of select="$md5" />
@@ -43,6 +39,9 @@
                 <!-- Other IDs -->
                 <xsl:element name="dc_identifier_localids">
                     <xsl:apply-templates select="premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id')]" />
+                    <xsl:element name="bestandsnaam">
+                        <xsl:value-of select="$original_filename" />
+                    </xsl:element>
                 </xsl:element>
                 <!-- Created -->
                 <xsl:apply-templates select="dcterms:created" />

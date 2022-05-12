@@ -14,7 +14,7 @@ def test_transform():
     cp_id = "CP ID"
     sp_name = "SP name"
     pid = "PID"
-    basename = "basename"
+    original_filename = "name"
     md5 = "md5"
 
     # Act
@@ -25,7 +25,7 @@ def test_transform():
         cp_id=etree.XSLT.strparam(cp_id),
         sp_name=etree.XSLT.strparam(sp_name),
         pid=etree.XSLT.strparam(pid),
-        dc_source=etree.XSLT.strparam(basename),
+        original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
     )
     transformed_xml = etree.tostring(
