@@ -62,17 +62,34 @@ def extract_metadata(path: str):
 
     for filepath, fixity in bag.entries.items():
         if regex.match(filepath):
-            metadata["md5"] = fixity["md5"]
-            metadata["basename"] = Path(filepath).name
             metadata["filename"] = filepath
             metadata["file_extension"] = Path(filepath).suffix
 
-    # Metadata from mets.xml
+    # Metadata from package mets.xml
     mets_path = Path(path, "data/mets.xml")
     root = etree.parse(str(mets_path))
     metadata["cp_id"] = root.xpath(
         "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATIONCODE']/text()"
     )[0]
+
+    # Metadata from the preservation data of the representation
+    premis_path = Path(
+        path, "data/representations/representation_1/metadata/preservation/premis.xml"
+    )
+    premis_namespaces = {
+        "premis": "http://www.loc.gov/premis/v3",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    }
+    root_premis = etree.parse(str(premis_path))
+    metadata["original_filename"] = root_premis.xpath(
+        "/premis:premis/premis:object[@xsi:type='file']/premis:originalName/text()",
+        namespaces=premis_namespaces,
+    )[0]
+    metadata["md5"] = root_premis.xpath(
+        "/premis:premis/premis:object[@xsi:type='file']/premis:objectCharacteristics/premis:fixity/premis:messageDigest/text()",
+        namespaces=premis_namespaces,
+    )[0]
+
     # Generated metadata
     metadata["pid"] = get_pid(configParser.app_cfg["aip-creator"]["pid_url"])
 
@@ -81,7 +98,7 @@ def extract_metadata(path: str):
 
 def create_sidecar(path: str, metadata: dict):
     # Parameters not present in the input XML
-    basename = metadata["basename"]
+    original_filename = metadata["original_filename"]
     cp_id = metadata["cp_id"]
     md5 = metadata["md5"]
     pid = metadata["pid"]
@@ -102,7 +119,7 @@ def create_sidecar(path: str, metadata: dict):
         cp_id=etree.XSLT.strparam(cp_id),
         sp_name=etree.XSLT.strparam(sp_name),
         pid=etree.XSLT.strparam(pid),
-        dc_source=etree.XSLT.strparam(basename),
+        original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
     ).getroot()
     return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
