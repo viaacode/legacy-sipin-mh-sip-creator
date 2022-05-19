@@ -11,6 +11,7 @@ def test_transform():
     # Arrange
     metadata_path = Path("tests", "resources", "dc.xml")
     xslt_path = Path("metadata.xslt")
+    cp_name = "CP name"
     cp_id = "CP ID"
     sp_name = "SP name"
     pid = "PID"
@@ -22,6 +23,7 @@ def test_transform():
     transform = etree.XSLT(xslt)
     transformed = transform(
         etree.parse(str(metadata_path)),
+        cp_name=etree.XSLT.strparam(cp_name),
         cp_id=etree.XSLT.strparam(cp_id),
         sp_name=etree.XSLT.strparam(sp_name),
         pid=etree.XSLT.strparam(pid),

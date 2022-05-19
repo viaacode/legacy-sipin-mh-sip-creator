@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:premis="http://www.loc.gov/premis/v3" xmlns:schema="http://schema.org/" xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exclude-result-prefixes="dc premis dcterms xsi schema" version="1.1">
     <xsl:output version="1.0" encoding="UTF-8" standalone="yes" indent="yes" />
+    <xsl:param name="cp_name" />
     <xsl:param name="cp_id" />
     <xsl:param name="sp_name" />
     <xsl:param name="pid" />
@@ -16,6 +17,10 @@
             </xsl:element>
             <!-- Dynamic-->
             <xsl:element name="mhs:Dynamic">
+                <!-- CP (NAME)) -->
+                <xsl:element name="CP">
+                    <xsl:value-of select="$cp_name" />
+                </xsl:element>
                 <!-- CP ID -->
                 <xsl:element name="CP_id">
                     <xsl:value-of select="$cp_id" />
