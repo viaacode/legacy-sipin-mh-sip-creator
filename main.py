@@ -68,6 +68,9 @@ def extract_metadata(path: str):
     # Metadata from package mets.xml
     mets_path = Path(path, "data/mets.xml")
     root = etree.parse(str(mets_path))
+    metadata["cp_name"] = root.xpath(
+        "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'name']/text()"
+    )[0]
     metadata["cp_id"] = root.xpath(
         "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATIONCODE']/text()"
     )[0]
@@ -99,6 +102,7 @@ def extract_metadata(path: str):
 def create_sidecar(path: str, metadata: dict):
     # Parameters not present in the input XML
     original_filename = metadata["original_filename"]
+    cp_name = metadata["cp_name"]
     cp_id = metadata["cp_id"]
     md5 = metadata["md5"]
     pid = metadata["pid"]
@@ -117,6 +121,7 @@ def create_sidecar(path: str, metadata: dict):
     tr = transform(
         etree.parse(str(metadata_path)),
         cp_id=etree.XSLT.strparam(cp_id),
+        cp_name=etree.XSLT.strparam(cp_name),
         sp_name=etree.XSLT.strparam(sp_name),
         pid=etree.XSLT.strparam(pid),
         original_filename=etree.XSLT.strparam(original_filename),
