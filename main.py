@@ -136,7 +136,7 @@ def handle_event(event: Event):
     If the event has a succesful outcome, a sidecar will be created.
     Sidecar and essence will be moved to the configured aip_folder and an event will be produced.
     """
-    if not event.has_successful_outcome:
+    if not event.has_successful_outcome():
         return
 
     # Path to unzipped bag
