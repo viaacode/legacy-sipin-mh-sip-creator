@@ -137,7 +137,10 @@ def handle_event(event: Event):
     Sidecar and essence will be moved to the configured aip_folder and an event will be produced.
     """
     if not event.has_successful_outcome():
+        log.info(f"Dropping non succesful event: {event.get_data()}")
         return
+
+    log.debug(f"Incoming event: {event.get_data()}")
 
     # Path to unzipped bag
     path: str = event.get_data()["destination"]
@@ -177,7 +180,8 @@ def handle_event(event: Event):
         "outcome": EventOutcome.SUCCESS,
         "message": f"AIP created: sidecar ingest for {filename}",
     }
-
+    
+    log.info(data["message"])
     send_event(data, path, event.correlation_id)
 
 
