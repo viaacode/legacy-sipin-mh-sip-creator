@@ -137,7 +137,7 @@ def handle_event(event: Event):
     Sidecar and essence will be moved to the configured aip_folder and an event will be produced.
     """
     if not event.has_successful_outcome():
-        log.debug(f"Dropping non succesful event: {event.get_data()}")
+        log.info(f"Dropping non succesful event: {event.get_data()}")
         return
 
     log.debug(f"Incoming event: {event.get_data()}")
@@ -181,7 +181,7 @@ def handle_event(event: Event):
         "message": f"AIP created: sidecar ingest for {filename}",
     }
     
-    log.debug(data["message"])
+    log.info(data["message"])
     send_event(data, path, event.correlation_id)
 
 
