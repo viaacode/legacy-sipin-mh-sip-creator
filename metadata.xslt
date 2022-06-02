@@ -44,7 +44,7 @@
                 <!-- Other IDs -->
                 <xsl:element name="dc_identifier_localids">
                     <xsl:apply-templates select="premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id')]" />
-                    <xsl:element name="bestandsnaam">
+                    <xsl:element name="Bestandsnaam">
                         <xsl:value-of select="$original_filename" />
                     </xsl:element>
                 </xsl:element>
