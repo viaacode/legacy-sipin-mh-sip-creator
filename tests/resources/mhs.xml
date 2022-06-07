@@ -5,6 +5,7 @@
     <mh:Description>Dit is een beschrijving</mh:Description>
   </mhs:Descriptive>
   <mhs:Dynamic>
+    <ingest_workflow>sipin</ingest_workflow>
     <CP>CP name</CP>
     <CP_id>CP ID</CP_id>
     <sp_name>SP name</sp_name>

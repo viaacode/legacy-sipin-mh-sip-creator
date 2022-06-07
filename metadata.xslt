@@ -17,6 +17,8 @@
             </xsl:element>
             <!-- Dynamic-->
             <xsl:element name="mhs:Dynamic">
+                <!-- Real workflow name (DEV-2104) -->
+                <xsl:element name="ingest_workflow">sipin</xsl:element>
                 <!-- CP (NAME)) -->
                 <xsl:element name="CP">
                     <xsl:value-of select="$cp_name" />
