@@ -178,10 +178,11 @@ def handle_event(event: Event):
         ],
         "cp_id": metadata["cp_id"],
         "type": "pair",
+        "pid": metadata["pid"],
         "outcome": EventOutcome.SUCCESS,
         "message": f"AIP created: sidecar ingest for {filename}",
     }
-    
+
     log.info(data["message"])
     send_event(data, path, event.correlation_id)
 
