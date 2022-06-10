@@ -11,7 +11,7 @@
             <!-- Descriptive -->
             <xsl:element name="mhs:Descriptive">
                 <!-- Title -->
-                <xsl:apply-templates select="dcterms:title[not(@xsi:type)]" />
+                <xsl:apply-templates select="dcterms:title[not(@xsi:type)]" mode="mhs" />
                 <!-- Description -->
                 <xsl:apply-templates select="dcterms:description" mode="mhs" />
             </xsl:element>
@@ -114,6 +114,7 @@
                 <!-- Description transcript -->
                 <xsl:apply-templates select="schema:transcript" />
                 <!-- Titles -->
+                <xsl:apply-templates select="dcterms:title[not(@xsi:type)]" mode="dynamic" />
                 <xsl:element name="dc_titles">
                     <xsl:apply-templates select="dcterms:isPartOf[@xsi:type='schema:Episode']/dcterms:title" />
                     <xsl:apply-templates select="dcterms:alternative" />
@@ -134,7 +135,7 @@
     </xsl:template>
     <!-- Descriptive -->
     <!-- Title -->
-    <xsl:template match="dcterms:title">
+    <xsl:template match="dcterms:title[not(@xsi:type)]" mode="mhs">
         <xsl:element name="mh:Title">
             <xsl:value-of select="text()" />
         </xsl:element>
@@ -605,6 +606,11 @@
         </xsl:element>
     </xsl:template>
     <!-- Titles -->
+    <xsl:template match="dcterms:title[not(@xsi:type)]" mode="dynamic">
+        <xsl:element name="dc_title">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="dcterms:isPartOf[@xsi:type='schema:Episode']/dcterms:title">
         <xsl:element name="aflevering">
             <xsl:value-of select="text()" />
