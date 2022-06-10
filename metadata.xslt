@@ -272,13 +272,28 @@
         </xsl:element>
     </xsl:template>
     <!-- Contributors -->
+    <xsl:template match="dcterms:contributor[@schema:roleName='aanwezig']">
+        <xsl:element name="Aanwezig">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='adviseur']">
         <xsl:element name="Adviseur">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='afwezig']">
+        <xsl:element name="Afwezig">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='arrangeur']">
         <xsl:element name="Arrangeur">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='archivaris']">
+        <xsl:element name="Archivaris">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
@@ -328,12 +343,22 @@
         </xsl:element>
     </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='decorontwerper']">
-        <xsl:element name="Decorontwerper">
+        <xsl:element name="DecorOntwerper">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='digitaliseringspartner']">
+        <xsl:element name="Digitaliseringspartner">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='dirigent']">
         <xsl:element name="Dirigent">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='dramaturg']">
+        <xsl:element name="Dramaturg">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
@@ -347,8 +372,18 @@
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='geluidsman']">
+        <xsl:element name="Geluidsman">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='grafisch_ontwerper']">
+        <xsl:element name="GrafischOntwerper">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='kostuumontwerper']">
-        <xsl:element name="Kostuumontwerper">
+        <xsl:element name="KostuumOntwerper">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
@@ -413,12 +448,17 @@
         </xsl:element>
     </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='technisch_adviseur']">
-        <xsl:element name="Technischadviseur">
+        <xsl:element name="TechnischAdviseur">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='uitvoerder']">
         <xsl:element name="Uitvoerder">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='verontschuldigd']">
+        <xsl:element name="Verontschuldigd">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
@@ -429,6 +469,11 @@
     </xsl:template>
     <xsl:template match="dcterms:contributor[@schema:roleName='verteller']">
         <xsl:element name="Verteller">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <xsl:template match="dcterms:contributor[@schema:roleName='voorzitter']">
+        <xsl:element name="Voorzitter">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
