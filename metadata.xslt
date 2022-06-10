@@ -13,7 +13,7 @@
                 <!-- Title -->
                 <xsl:apply-templates select="dcterms:title[not(@xsi:type)]" />
                 <!-- Description -->
-                <xsl:apply-templates select="dcterms:description" />
+                <xsl:apply-templates select="dcterms:description" mode="mhs" />
             </xsl:element>
             <!-- Dynamic-->
             <xsl:element name="mhs:Dynamic">
@@ -106,6 +106,8 @@
                     <xsl:apply-templates select="dcterms:creator" />
                 </xsl:element>
                 <!-- Description -->
+                <xsl:apply-templates select="dcterms:description" mode="dynamic" />
+                <!-- Description lang-->
                 <xsl:apply-templates select="dcterms:abstract" />
                 <!-- Description caption/ondertitels -->
                 <xsl:apply-templates select="schema:caption" />
@@ -138,7 +140,7 @@
         </xsl:element>
     </xsl:template>
     <!-- Description -->
-    <xsl:template match="dcterms:description">
+    <xsl:template match="dcterms:description" mode="mhs">
         <xsl:element name="mh:Description">
             <xsl:value-of select="text()" />
         </xsl:element>
@@ -579,6 +581,12 @@
         </xsl:element>
     </xsl:template>
     <!-- Description -->
+    <xsl:template match="dcterms:description" mode="dynamic">
+        <xsl:element name="dc_description">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Description lang-->
     <xsl:template match="dcterms:abstract">
         <xsl:element name="dc_description_lang">
             <xsl:value-of select="text()" />
