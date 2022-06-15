@@ -106,8 +106,7 @@ def create_sidecar(path: str, metadata: dict):
     cp_id = metadata["cp_id"]
     md5 = metadata["md5"]
     pid = metadata["pid"]
-    # Workaround to bypass MH codec check (DEV-2104).
-    sp_name = "borndigital"
+    sp_name = "sipin"
 
     # The XSLT
     xslt_path = Path("metadata.xslt")
