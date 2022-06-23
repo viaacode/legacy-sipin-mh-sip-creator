@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:premis="http://www.loc.gov/premis/v3" xmlns:schema="http://schema.org/" xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exclude-result-prefixes="dc premis dcterms xsi schema" version="1.1">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:premis="http://www.loc.gov/premis/v3" xmlns:schema="http://schema.org/" xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ebucore="urn:ebu:metadata-schema:ebucore" exclude-result-prefixes="dc premis dcterms xsi schema ebucore" version="1.1">
     <xsl:output version="1.0" encoding="UTF-8" standalone="yes" indent="yes" />
     <xsl:param name="cp_name" />
     <xsl:param name="cp_id" />
@@ -130,6 +130,8 @@
                 </xsl:element>
                 <!-- dc_description_programme -->
                 <xsl:apply-templates select="dcterms:isPartOf[@xsi:type='schema:BroadcastEvent']/dcterms:description" />
+                <!-- Ebucore type -->
+                <xsl:apply-templates select="ebucore:type" />
             </xsl:element>
         </mhs:Sidecar>
     </xsl:template>
@@ -669,6 +671,12 @@
     <!-- dc_description_programme -->
     <xsl:template match="dcterms:isPartOf[@xsi:type='schema:BroadcastEvent']/dcterms:description">
         <xsl:element name="dc_description_programme">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- ebucore:type -->
+    <xsl:template match="ebucore:type">
+        <xsl:element name="ebu_objectType">
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>

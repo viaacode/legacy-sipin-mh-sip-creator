@@ -153,5 +153,6 @@
       <serienummer>2</serienummer>
     </dc_titles>
     <dc_description_programme>Programmabeschrijving</dc_description_programme>
+    <ebu_objectType>Object type</ebu_objectType>
   </mhs:Dynamic>
 </mhs:Sidecar>
