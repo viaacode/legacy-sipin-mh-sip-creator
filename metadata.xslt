@@ -6,7 +6,7 @@
     <xsl:param name="pid" />
     <xsl:param name="original_filename" />
     <xsl:param name="md5" />
-    <xsl:template match="premis:object">
+    <xsl:template match="metadata">
         <mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
             <!-- Descriptive -->
             <xsl:element name="mhs:Descriptive">
