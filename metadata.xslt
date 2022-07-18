@@ -39,8 +39,6 @@
                 <xsl:element name="md5">
                     <xsl:value-of select="$md5" />
                 </xsl:element>
-                <!-- PID -->
-                <!-- <xsl:apply-templates select="dcterms:identifier" /> -->
                 <!-- local ID -->
                 <xsl:apply-templates select="premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']" />
                 <!-- Other IDs -->
