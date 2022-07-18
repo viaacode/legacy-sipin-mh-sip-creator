@@ -85,11 +85,11 @@ def extract_metadata(path: str):
     }
     root_premis = etree.parse(str(premis_path))
     metadata["original_filename"] = root_premis.xpath(
-        "/premis:premis/premis:object[@xsi:type='file']/premis:originalName/text()",
+        "/premis:premis/premis:object[@xsi:type='premis:file']/premis:originalName/text()",
         namespaces=premis_namespaces,
     )[0]
     metadata["md5"] = root_premis.xpath(
-        "/premis:premis/premis:object[@xsi:type='file']/premis:objectCharacteristics/premis:fixity/premis:messageDigest/text()",
+        "/premis:premis/premis:object[@xsi:type='premis:file']/premis:objectCharacteristics/premis:fixity/premis:messageDigest/text()",
         namespaces=premis_namespaces,
     )[0]
 
@@ -113,8 +113,9 @@ def create_sidecar(path: str, metadata: dict):
     xslt = etree.parse(str(xslt_path.resolve()))
 
     # Descriptive metadata
-    # TODO: Get the path dynamically
+    # TODO: Get the paths dynamically
     metadata_path = Path(path, "data/metadata/descriptive/dc.xml")
+    premis_path = Path(path, "data/metadata/preservation/premis.xml")
 
     # XSLT transformation
     transform = etree.XSLT(xslt)
@@ -126,6 +127,7 @@ def create_sidecar(path: str, metadata: dict):
         pid=etree.XSLT.strparam(pid),
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
+        premis_path=etree.XSLT.strparam(str(premis_path)),
     ).getroot()
     return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
