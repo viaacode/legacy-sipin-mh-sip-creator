@@ -1,0 +1,24 @@
+<premis:premis xmlns:premis="http://www.loc.gov/premis/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0">
+    <premis:object xsi:type="premis:intellectualEntity">
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>uuid</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>865b767d-05f9-49d5-ba54-e9e82acec30d</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>local_id</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>localid</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>Object_number</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>objnum</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:relationship>
+            <premis:relationshipType authority="relationshipType" authorityURI="http://id.loc.gov/vocabulary/preservation/relationshipType" valueURI="http://id.loc.gov/vocabulary/preservation/relationshipType/str">structural</premis:relationshipType>
+            <premis:relationshipSubtype authority="relationshipSubType" authorityURI="http://id.loc.gov/vocabulary/preservation/relationshipSubType" valueURI="http://id.loc.gov/vocabulary/preservation/relationshipSubType/isr">is represented by</premis:relationshipSubtype>
+            <premis:relatedObjectIdentifier>
+                <premis:relatedObjectIdentifierType>UUID</premis:relatedObjectIdentifierType>
+                <premis:relatedObjectIdentifierValue>c7a2fe3d-81f0-4d48-a5e8-afdee96aeace</premis:relatedObjectIdentifierValue>
+            </premis:relatedObjectIdentifier>
+        </premis:relationship>
+    </premis:object>
+</premis:premis>

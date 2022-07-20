@@ -6,7 +6,8 @@
     <xsl:param name="pid" />
     <xsl:param name="original_filename" />
     <xsl:param name="md5" />
-    <xsl:template match="premis:object">
+    <xsl:param name="premis_path" />
+    <xsl:template match="metadata">
         <mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
             <!-- Descriptive -->
             <xsl:element name="mhs:Descriptive">
@@ -39,13 +40,11 @@
                 <xsl:element name="md5">
                     <xsl:value-of select="$md5" />
                 </xsl:element>
-                <!-- PID -->
-                <!-- <xsl:apply-templates select="dcterms:identifier" /> -->
                 <!-- local ID -->
-                <xsl:apply-templates select="premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']" />
+                <xsl:apply-templates select="document($premis_path)/premis:premis/premis:object/premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']" />
                 <!-- Other IDs -->
                 <xsl:element name="dc_identifier_localids">
-                    <xsl:apply-templates select="premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id')]" />
+                    <xsl:apply-templates select="document($premis_path)/premis:premis/premis:object/premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id' or text() = 'uuid')]" />
                     <xsl:element name="Bestandsnaam">
                         <xsl:value-of select="$original_filename" />
                     </xsl:element>

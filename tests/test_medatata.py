@@ -10,6 +10,7 @@ from tests import load_resource
 def test_transform():
     # Arrange
     metadata_path = Path("tests", "resources", "dc.xml")
+    premis_path = Path("tests", "resources", "premis.xml")
     xslt_path = Path("metadata.xslt")
     cp_name = "CP name"
     cp_id = "CP ID"
@@ -29,6 +30,7 @@ def test_transform():
         pid=etree.XSLT.strparam(pid),
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
+        premis_path=etree.XSLT.strparam(str(premis_path)),
     )
     transformed_xml = etree.tostring(
         transformed,
