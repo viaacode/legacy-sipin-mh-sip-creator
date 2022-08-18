@@ -2,15 +2,23 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
 
+import pytest
 from lxml import etree
 
 from tests import load_resource
 
 
-def test_transform():
+@pytest.mark.parametrize(
+    "premis_path,output_path",
+    [
+        ("premis.xml", "mhs.xml"),
+        ("premis_xdcam.xml", "mhs_xdcam.xml"),
+    ],
+)
+def test_transform(premis_path, output_path):
     # Arrange
     metadata_path = Path("tests", "resources", "dc.xml")
-    premis_path = Path("tests", "resources", "premis.xml")
+    premis_path = Path("tests", "resources", premis_path)
     xslt_path = Path("metadata.xslt")
     cp_name = "CP name"
     cp_id = "CP ID"
@@ -38,7 +46,7 @@ def test_transform():
         xml_declaration=True,
         encoding="UTF-8",
     ).strip()
-    expected_output_xml = load_resource(Path("tests", "resources", "mhs.xml"))
+    expected_output_xml = load_resource(Path("tests", "resources", output_path))
 
     # Assert
     assert transformed_xml == expected_output_xml

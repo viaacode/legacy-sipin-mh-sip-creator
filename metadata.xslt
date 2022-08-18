@@ -7,6 +7,9 @@
     <xsl:param name="original_filename" />
     <xsl:param name="md5" />
     <xsl:param name="premis_path" />
+
+    <xsl:variable name="premis_source" select="document($premis_path)/premis:premis" />
+
     <xsl:template match="metadata">
         <mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
             <!-- Descriptive -->
@@ -41,10 +44,10 @@
                     <xsl:value-of select="$md5" />
                 </xsl:element>
                 <!-- local ID -->
-                <xsl:apply-templates select="document($premis_path)/premis:premis/premis:object/premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']" />
+                <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:intellectualEntity']/premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']" />
                 <!-- Other IDs -->
                 <xsl:element name="dc_identifier_localids">
-                    <xsl:apply-templates select="document($premis_path)/premis:premis/premis:object/premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id' or text() = 'uuid')]" />
+                    <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:intellectualEntity']/premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id' or text() = 'uuid')]" />
                     <xsl:element name="Bestandsnaam">
                         <xsl:value-of select="$original_filename" />
                     </xsl:element>
@@ -131,6 +134,17 @@
                 <xsl:apply-templates select="dcterms:isPartOf[@xsi:type='schema:BroadcastEvent']/dcterms:description" />
                 <!-- Ebucore type -->
                 <xsl:apply-templates select="ebucore:type" />
+                <!-- XDCAM -->
+                <!-- format / storage -->
+                <xsl:if test="$premis_source/premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium = 'XDCAM'">
+                    <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium" />
+                </xsl:if>
+                <!-- SP name and SP ID-->
+                <xsl:apply-templates select="$premis_source/premis:agent/premis:agentType[text() = 'SP Agent']" />
+                <!-- Digitization info-->
+                <xsl:apply-templates select="$premis_source/premis:event/premis:eventType[text() = 'DIGITIZATION']" />
+                <!-- Player info-->
+                <xsl:apply-templates select="$premis_source/premis:agent/premis:agentType[text() = 'player']" />
             </xsl:element>
         </mhs:Sidecar>
     </xsl:template>
@@ -155,13 +169,13 @@
         </xsl:element>
     </xsl:template>
     <!-- local ID -->
-    <xsl:template match="premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']">
+    <xsl:template match="premis:object[@xsi:type='premis:intellectualEntity']/premis:objectIdentifier/premis:objectIdentifierType[text() = 'local_id']">
         <xsl:element name="dc_identifier_localid">
             <xsl:value-of select="../premis:objectIdentifierValue/text()" />
         </xsl:element>
     </xsl:template>
     <!-- Other IDs -->
-    <xsl:template match="premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id')]">
+    <xsl:template match="premis:object[@xsi:type='premis:intellectualEntity']/premis:objectIdentifier/premis:objectIdentifierType[not(text() = 'local_id')]">
         <xsl:element name="{../premis:objectIdentifierType/text()}">
             <xsl:value-of select="../premis:objectIdentifierValue/text()" />
         </xsl:element>
@@ -677,6 +691,46 @@
     <xsl:template match="ebucore:type">
         <xsl:element name="ebu_objectType">
             <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- XDCAM -->
+    <!-- Format / storage -->
+    <xsl:template match="premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium">
+        <xsl:element name="format">
+            <xsl:value-of select="text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- SP name and SP ID-->
+    <xsl:template match="premis:agent/premis:agentType[text()='SP Agent']">
+        <xsl:element name="sp_name">
+            <xsl:value-of select="../premis:agentName/text()" />
+        </xsl:element>
+        <xsl:element name="sp_id">
+            <xsl:value-of select="../premis:agentIdentifier/premis:agentIdentifierValue/text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Digitization info-->
+    <xsl:template match="premis:event/premis:eventType[text()='DIGITIZATION']">
+        <xsl:element name="digitization_date">
+            <xsl:value-of select="substring-before(../premis:eventDateTime,'T')" />
+        </xsl:element>
+        <xsl:element name="digitization_time">
+            <xsl:value-of select="substring-after(../premis:eventDateTime,'T')" />
+        </xsl:element>
+        <xsl:element name="digitization_note">
+            <xsl:value-of select="../premis:eventDetailInformation/schema:eventDetail/text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Player info-->
+    <xsl:template match="premis:agent/premis:agentType[text()='player']">
+        <xsl:element name="player_manufacturer">
+            <xsl:value-of select="../premis:agentExtension/schema:brand/schema:name/text()" />
+        </xsl:element>
+        <xsl:element name="player_serial_number">
+            <xsl:value-of select="../premis:agentExtension/schema:serialNumber/text()" />
+        </xsl:element>
+        <xsl:element name="player_model">
+            <xsl:value-of select="../premis:agentExtension/schema:model/text()" />
         </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
