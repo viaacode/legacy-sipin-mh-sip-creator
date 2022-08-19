@@ -106,7 +106,6 @@ def create_sidecar(path: str, metadata: dict):
     cp_id = metadata["cp_id"]
     md5 = metadata["md5"]
     pid = metadata["pid"]
-    sp_name = "sipin"
 
     # The XSLT
     xslt_path = Path("metadata.xslt")
@@ -123,7 +122,6 @@ def create_sidecar(path: str, metadata: dict):
         etree.parse(str(metadata_path)),
         cp_id=etree.XSLT.strparam(cp_id),
         cp_name=etree.XSLT.strparam(cp_name),
-        sp_name=etree.XSLT.strparam(sp_name),
         pid=etree.XSLT.strparam(pid),
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),

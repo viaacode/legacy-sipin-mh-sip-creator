@@ -2,13 +2,22 @@
     <xsl:output version="1.0" encoding="UTF-8" standalone="yes" indent="yes" />
     <xsl:param name="cp_name" />
     <xsl:param name="cp_id" />
-    <xsl:param name="sp_name" />
     <xsl:param name="pid" />
     <xsl:param name="original_filename" />
     <xsl:param name="md5" />
     <xsl:param name="premis_path" />
 
     <xsl:variable name="premis_source" select="document($premis_path)/premis:premis" />
+    <xsl:variable name="sp_name">
+        <xsl:choose>
+            <xsl:when test="$premis_source/premis:agent/premis:agentType[text()='SP Agent']">
+                <xsl:value-of select="$premis_source/premis:agent[premis:agentType/text()='SP Agent']/premis:agentName/text()" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="'sipin'" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
 
     <xsl:template match="metadata">
         <mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
@@ -139,7 +148,7 @@
                 <xsl:if test="$premis_source/premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium = 'XDCAM'">
                     <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium" />
                 </xsl:if>
-                <!-- SP name and SP ID-->
+                <!-- SP ID-->
                 <xsl:apply-templates select="$premis_source/premis:agent/premis:agentType[text() = 'SP Agent']" />
                 <!-- Digitization info-->
                 <xsl:apply-templates select="$premis_source/premis:event/premis:eventType[text() = 'DIGITIZATION']" />
@@ -700,11 +709,8 @@
             <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
-    <!-- SP name and SP ID-->
+    <!-- SP ID-->
     <xsl:template match="premis:agent/premis:agentType[text()='SP Agent']">
-        <xsl:element name="sp_name">
-            <xsl:value-of select="../premis:agentName/text()" />
-        </xsl:element>
         <xsl:element name="sp_id">
             <xsl:value-of select="../premis:agentIdentifier/premis:agentIdentifierValue/text()" />
         </xsl:element>
