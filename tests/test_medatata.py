@@ -22,7 +22,6 @@ def test_transform(premis_path, output_path):
     xslt_path = Path("metadata.xslt")
     cp_name = "CP name"
     cp_id = "CP ID"
-    sp_name = "SP name"
     pid = "PID"
     original_filename = "name"
     md5 = "md5"
@@ -34,7 +33,6 @@ def test_transform(premis_path, output_path):
         etree.parse(str(metadata_path)),
         cp_name=etree.XSLT.strparam(cp_name),
         cp_id=etree.XSLT.strparam(cp_id),
-        sp_name=etree.XSLT.strparam(sp_name),
         pid=etree.XSLT.strparam(pid),
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
