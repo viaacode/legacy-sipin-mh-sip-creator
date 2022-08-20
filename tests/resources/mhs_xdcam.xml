@@ -162,5 +162,6 @@
     <player_manufacturer>SONY</player_manufacturer>
     <player_serial_number>0000000</player_serial_number>
     <player_model>PDW-U2</player_model>
+    <type_viaa>video</type_viaa>
   </mhs:Dynamic>
 </mhs:Sidecar>
