@@ -154,6 +154,12 @@
                 <xsl:apply-templates select="$premis_source/premis:event/premis:eventType[text() = 'DIGITIZATION']" />
                 <!-- Player info-->
                 <xsl:apply-templates select="$premis_source/premis:agent/premis:agentType[text() = 'player']" />
+                <!-- Set type_viaa to 'video' when XDCAM -->
+                <xsl:if test="$premis_source/premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium = 'XDCAM'">
+                    <xsl:element name="type_viaa">
+                        <xsl:value-of select="'video'" />
+                    </xsl:element>
+                </xsl:if>
             </xsl:element>
         </mhs:Sidecar>
     </xsl:template>
