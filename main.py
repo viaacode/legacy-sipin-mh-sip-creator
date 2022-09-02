@@ -96,6 +96,13 @@ def extract_metadata(path: str):
     # Generated metadata
     metadata["pid"] = get_pid(configParser.app_cfg["aip-creator"]["pid_url"])
 
+    # Batch ID
+    metadata["batch_id"] = ""
+    try:
+        metadata["batch_id"] = bag.info["Meemoo-Batch-Identifier"]
+    except KeyError:
+        pass
+
     return metadata
 
 
@@ -126,6 +133,7 @@ def create_sidecar(path: str, metadata: dict):
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
         premis_path=etree.XSLT.strparam(str(premis_path)),
+        batch_id=etree.XSLT.strparam(str(metadata["batch_id"])),
     ).getroot()
     return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
