@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
+  <mhs:Descriptive>
+    <mh:Title>Dit is een titel</mh:Title>
+    <mh:Description>Dit is een beschrijving</mh:Description>
+  </mhs:Descriptive>
+  <mhs:Dynamic>
+    <ingest_workflow>sipin</ingest_workflow>
+    <CP>CP name</CP>
+    <CP_id>CP ID</CP_id>
+    <sp_name>sipin</sp_name>
+    <PID>PID</PID>
+    <md5>md5</md5>
+    <dc_identifier_localid>localid</dc_identifier_localid>
+    <dc_identifier_localids>
+      <Object_number>objnum</Object_number>
+      <Bestandsnaam>name</Bestandsnaam>
+    </dc_identifier_localids>
+    <dcterms_created>2022-03-29</dcterms_created>
+    <dcterms_issued>2022-03-30</dcterms_issued>
+    <dc_types>
+      <multiselect>Nieuws</multiselect>
+      <multiselect>Sport</multiselect>
+    </dc_types>
+    <dc_coverages>
+      <tijd>Interbellum</tijd>
+      <tijd>Jaren 20</tijd>
+      <ruimte>Oost-Vlaanderen</ruimte>
+      <ruimte>West-Vlaanderen</ruimte>
+    </dc_coverages>
+    <dc_subjects>
+      <Trefwoord>Voetbal</Trefwoord>
+      <Trefwoord>Handbal</Trefwoord>
+      <Trefwoord>Economie</Trefwoord>
+    </dc_subjects>
+    <dc_rights_licenses>
+      <multiselect>VIAA-PUBLIEK-METADATA-LTD</multiselect>
+      <multiselect>VIAA-INTRA_CP-METADATA-ALL</multiselect>
+      <multiselect>VIAA-INTRA_CP-CONTENT</multiselect>
+      <multiselect>VIAA-ONDERZOEK</multiselect>
+      <multiselect>VIAA-ONDERWIJS</multiselect>
+      <multiselect>BEZOEKERTOOL-CONTENT</multiselect>
+      <multiselect>BEZOEKERTOOL-METADATA-ALL</multiselect>
+    </dc_rights_licenses>
+    <dc_rights_comment>Rights comment</dc_rights_comment>
+    <dc_rights_credit>Credit</dc_rights_credit>
+    <dc_rights_rightsOwners>
+      <Auteursrechthouder>Auteur</Auteursrechthouder>
+    </dc_rights_rightsOwners>
+    <dc_rights_rightsHolders>
+      <Licentiehouder>Licentie</Licentiehouder>
+    </dc_rights_rightsHolders>
+    <dc_relations>
+      <bevat>Bevat</bevat>
+      <is_deel_van>Is deel van</is_deel_van>
+      <is_verwant_aan>Is verwant aan</is_verwant_aan>
+    </dc_relations>
+    <dc_publishers>
+      <Distributeur>Distributeur</Distributeur>
+      <Exposant>Exposant</Exposant>
+      <Persagentschap>Persagentschap</Persagentschap>
+      <Publisher>Publisher</Publisher>
+    </dc_publishers>
+    <dc_languages>
+      <multiselect>Nederlands</multiselect>
+      <multiselect>Engels</multiselect>
+    </dc_languages>
+    <dc_contributors>
+      <Aanwezig>Aanwezig</Aanwezig>
+      <Adviseur>Adviseur</Adviseur>
+      <Afwezig>Afwezig</Afwezig>
+      <Archivaris>Archivaris</Archivaris>
+      <Arrangeur>Arrangeur</Arrangeur>
+      <ArtistiekDirecteur>Artistiek directeur</ArtistiekDirecteur>
+      <Assistent>Assistent</Assistent>
+      <Auteur>Auteur</Auteur>
+      <Belichting>Belichting</Belichting>
+      <Bijdrager>Bijdrager</Bijdrager>
+      <Cameraman>Cameraman</Cameraman>
+      <Co-producer>Coproducer</Co-producer>
+      <Commentator>Commentator</Commentator>
+      <Componist>Componist</Componist>
+      <DecorOntwerper>Decorontwerper</DecorOntwerper>
+      <Digitaliseringspartner>Digitaliseringspartner</Digitaliseringspartner>
+      <Dirigent>Dirigent</Dirigent>
+      <Dramaturg>Dramaturg</Dramaturg>
+      <Fotografie>Fotografie</Fotografie>
+      <Geluid>Geluid</Geluid>
+      <Geluidsman>Geluidsman</Geluidsman>
+      <GrafischOntwerper>Grafisch ontwerper</GrafischOntwerper>
+      <KostuumOntwerper>Kostuumontwerper</KostuumOntwerper>
+      <Kunstenaar>Kunstenaar</Kunstenaar>
+      <Make-up>Make-up</Make-up>
+      <Muzikant>Muzikant</Muzikant>
+      <Nieuwsanker>Nieuwsanker</Nieuwsanker>
+      <Omroeper>Omroeper</Omroeper>
+      <Onderzoeker>Onderzoeker</Onderzoeker>
+      <Post-productie>Post-productie</Post-productie>
+      <Producer>Producer</Producer>
+      <Reporter>Reporter</Reporter>
+      <Scenarist>Scenarist</Scenarist>
+      <Soundtrack>Soundtrack</Soundtrack>
+      <Sponsor>Sponsor</Sponsor>
+      <TechnischAdviseur>Technisch adviseur</TechnischAdviseur>
+      <Uitvoerder>Uitvoerder</Uitvoerder>
+      <Verontschuldigd>Verontschuldigd</Verontschuldigd>
+      <Vertaler>Vertaler</Vertaler>
+      <Verteller>Verteller</Verteller>
+      <Voorzitter>Voorzitter</Voorzitter>
+    </dc_contributors>
+    <dc_creators>
+      <Acteur>Acteur</Acteur>
+      <Archiefvormer>Archiefvormer</Archiefvormer>
+      <Auteur>Auteur</Auteur>
+      <Cast>Cast</Cast>
+      <Choreograaf>Choreograaf</Choreograaf>
+      <Cineast>Cineast</Cineast>
+      <Componist>Componist</Componist>
+      <Danser>Danser</Danser>
+      <Documentairemaker>Documentairemaker</Documentairemaker>
+      <Fotograaf>Fotograaf</Fotograaf>
+      <Interviewer>Interviewer</Interviewer>
+      <Kunstenaar>Kunstenaar</Kunstenaar>
+      <Maker>Maker</Maker>
+      <Muzikant>Muzikant</Muzikant>
+      <Opdrachtgever>Opdrachtgever</Opdrachtgever>
+      <Performer>Performer</Performer>
+      <Producer>Producer</Producer>
+      <Productiehuis>Productiehuis</Productiehuis>
+      <Regisseur>Regisseur</Regisseur>
+      <Schrijver>Schrijver</Schrijver>
+    </dc_creators>
+    <dc_description>Dit is een beschrijving</dc_description>
+    <dc_description_lang>Abstract</dc_description_lang>
+    <dc_description_ondertitels>Caption</dc_description_ondertitels>
+    <dc_description_transcriptie>Transcript</dc_description_transcriptie>
+    <dc_title>Dit is een titel</dc_title>
+    <dc_titles>
+      <aflevering>Aflevering</aflevering>
+      <aflevering>Episode</aflevering>
+      <alternatief>Alternatief</alternatief>
+      <archief>Archief</archief>
+      <deelarchief>Deelarchief</deelarchief>
+      <registratie>Registratie</registratie>
+      <programma>Programma</programma>
+      <seizoen>Seizoen</seizoen>
+      <seizoennummer>1</seizoennummer>
+      <reeks>Serie</reeks>
+      <reeks>Reeks</reeks>
+      <deelreeks>Deelreeks</deelreeks>
+      <deelreeks>Deelreeks</deelreeks>
+      <serienummer>2</serienummer>
+      <serienummer>2</serienummer>
+    </dc_titles>
+    <dc_description_programme>Programmabeschrijving</dc_description_programme>
+    <ebu_objectType>Object type</ebu_objectType>
+    <batch_id>Batch ID</batch_id>
+  </mhs:Dynamic>
+</mhs:Sidecar>

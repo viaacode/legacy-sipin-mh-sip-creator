@@ -6,6 +6,7 @@
     <xsl:param name="original_filename" />
     <xsl:param name="md5" />
     <xsl:param name="premis_path" />
+    <xsl:param name="batch_id" />
 
     <xsl:variable name="premis_source" select="document($premis_path)/premis:premis" />
     <xsl:variable name="sp_name">
@@ -158,6 +159,12 @@
                 <xsl:if test="$premis_source/premis:object[@xsi:type='premis:representation']/premis:storage/premis:storageMedium = 'XDCAM'">
                     <xsl:element name="type_viaa">
                         <xsl:value-of select="'video'" />
+                    </xsl:element>
+                </xsl:if>
+                <!-- Batch ID -->
+                <xsl:if test="$batch_id">
+                    <xsl:element name="batch_id">
+                        <xsl:value-of select="$batch_id" />
                     </xsl:element>
                 </xsl:if>
             </xsl:element>
