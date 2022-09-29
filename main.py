@@ -103,6 +103,13 @@ def extract_metadata(path: str):
     except KeyError:
         pass
 
+    # Meemoo workflow
+    metadata["meemoo_workflow"] = ""
+    try:
+        metadata["meemoo_workflow"] = bag.info["Meemoo-Workflow"]
+    except KeyError:
+        pass
+
     return metadata
 
 
@@ -113,6 +120,8 @@ def create_sidecar(path: str, metadata: dict):
     cp_id = metadata["cp_id"]
     md5 = metadata["md5"]
     pid = metadata["pid"]
+    batch_id = metadata["batch_id"]
+    meemoo_workflow = metadata["meemoo_workflow"]
 
     # The XSLT
     xslt_path = Path("metadata.xslt")
@@ -133,7 +142,8 @@ def create_sidecar(path: str, metadata: dict):
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
         premis_path=etree.XSLT.strparam(str(premis_path)),
-        batch_id=etree.XSLT.strparam(str(metadata["batch_id"])),
+        batch_id=etree.XSLT.strparam(batch_id),
+        meemoo_workflow=etree.XSLT.strparam(meemoo_workflow),
     ).getroot()
     return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
