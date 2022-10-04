@@ -7,10 +7,14 @@
     <xsl:param name="md5" />
     <xsl:param name="premis_path" />
     <xsl:param name="batch_id" />
+    <xsl:param name="meemoo_workflow" />
 
     <xsl:variable name="premis_source" select="document($premis_path)/premis:premis" />
     <xsl:variable name="sp_name">
         <xsl:choose>
+            <xsl:when test="$meemoo_workflow">
+                <xsl:value-of select="$meemoo_workflow" />
+            </xsl:when>
             <xsl:when test="$premis_source/premis:agent/premis:agentType[text()='SP Agent']">
                 <xsl:value-of select="$premis_source/premis:agent[premis:agentType/text()='SP Agent']/premis:agentName/text()" />
             </xsl:when>
