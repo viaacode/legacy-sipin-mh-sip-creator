@@ -19,7 +19,7 @@
                 <xsl:value-of select="$premis_source/premis:agent[premis:agentType/text()='SP Agent']/premis:agentName/text()" />
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="'sipin'" />
+                <xsl:value-of select="'borndigital'" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
