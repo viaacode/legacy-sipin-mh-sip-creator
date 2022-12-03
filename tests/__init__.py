@@ -5,6 +5,6 @@ from pathlib import Path
 
 
 def load_resource(filepath: Path):
-    with open(filepath, "rb") as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         contents = f.read()
     return contents

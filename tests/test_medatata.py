@@ -41,15 +41,12 @@ def test_transform(premis_path, output_path):
         meemoo_workflow=etree.XSLT.strparam(""),
     )
     transformed_xml = etree.tostring(
-        transformed,
-        pretty_print=True,
-        xml_declaration=True,
-        encoding="UTF-8",
+        transformed, pretty_print=True, xml_declaration=True, encoding="UTF-8"
     ).strip()
     expected_output_xml = load_resource(Path("tests", "resources", output_path))
 
     # Assert
-    assert transformed_xml == expected_output_xml
+    assert transformed_xml.decode("UTF-8") == expected_output_xml
 
 
 def test_transform_batch():
@@ -87,7 +84,7 @@ def test_transform_batch():
     expected_output_xml = load_resource(Path("tests", "resources", "mhs_batch_id.xml"))
 
     # Assert
-    assert transformed_xml == expected_output_xml
+    assert transformed_xml.decode("UTF-8") == expected_output_xml
 
 
 def test_transform_meemoo_workflow():
@@ -127,4 +124,4 @@ def test_transform_meemoo_workflow():
     )
 
     # Assert
-    assert transformed_xml == expected_output_xml
+    assert transformed_xml.decode("UTF-8") == expected_output_xml
