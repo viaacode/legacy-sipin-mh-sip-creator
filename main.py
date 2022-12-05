@@ -207,6 +207,8 @@ def handle_event(event: Event):
             "message": f"AIP created: sidecar ingest for {filename}",
         }
 
+        log.debug(data["pid"])
+        log.debug(str(data["paths"]))
         log.info(data["message"])
         send_event(data, path, event.correlation_id)
 
