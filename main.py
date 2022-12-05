@@ -186,7 +186,7 @@ def handle_event(event: Event):
             configParser.app_cfg["aip-creator"]["aip_folder"], item["pid"]
         )
 
-        shutil.move(essence_filepath, aip_filepath.with_suffix(metadata["file_extension"]))
+        shutil.move(essence_filepath, aip_filepath.with_suffix(item["file_extension"]))
         shutil.move(sidecar_filepath, aip_filepath.with_suffix(".xml"))
 
         # Send event on topic
@@ -194,7 +194,7 @@ def handle_event(event: Event):
             "source": path,
             "host": configParser.app_cfg["aip-creator"]["host"],
             "paths": [
-                str(aip_filepath.with_suffix(metadata["file_extension"])),
+                str(aip_filepath.with_suffix(item["file_extension"])),
                 str(aip_filepath.with_suffix(".xml")),
             ],
             "cp_id": metadata["cp_id"],
