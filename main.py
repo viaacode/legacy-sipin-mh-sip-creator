@@ -66,6 +66,7 @@ def extract_metadata(path: str):
 
     for filepath, fixity in bag.entries.items():
         if regex.match(filepath):
+            log.debug(f"'{filepath}' matches regex.")
             item_metadata = {
                     "filepath": filepath,
                     "filename": Path(filepath).name,
@@ -169,7 +170,7 @@ def handle_event(event: Event):
     # Extract metadata from bag info and mets xmls
     metadata: dict = extract_metadata(path)
 
-    log.debug(f"SIP has {metadata['items']} item(s).")
+    log.debug(f"SIP has {len(metadata['items'])} item(s).")
 
     # Build one or more mediahaven sidecar(s) with extracted xmls
     for item in metadata["items"]:
