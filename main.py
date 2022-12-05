@@ -52,8 +52,12 @@ def get_pid(url):
 
 
 def extract_metadata(path: str):
-    metadata = {}
+    package_metadata = {}
+    items_metadata = []
 
+    # Generated metadata
+    package_metadata["pid"] = get_pid(configParser.app_cfg["aip-creator"]["pid_url"])
+    
     # Metadata from the bag
     bag = bagit.Bag(path)
 
@@ -62,69 +66,67 @@ def extract_metadata(path: str):
 
     for filepath, fixity in bag.entries.items():
         if regex.match(filepath):
-            metadata["filename"] = filepath
-            metadata["file_extension"] = Path(filepath).suffix
+            item_metadata = {
+                    "filepath": filepath,
+                    "filename": Path(filepath).name,
+                    "file_extension": Path(filepath).suffix,
+                    "fixity": fixity["md5"]
+                }
+            if Path(filepath).suffix in ["srt"]:
+                item_metadata["pid"] = f"{package_metadata['pid']}_{item_metadata['file_extension']}"
+                item_metadata["is_collateral"] = True
+            else:
+                item_metadata["pid"] = package_metadata['pid']
+                item_metadata["is_collateral"] = False
+
+            items_metadata.append(item_metadata)
 
     # Metadata from package mets.xml
     mets_path = Path(path, "data/mets.xml")
     root = etree.parse(str(mets_path))
-    metadata["cp_name"] = root.xpath(
+    package_metadata["cp_name"] = root.xpath(
         "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'name']/text()"
     )[0]
-    metadata["cp_id"] = root.xpath(
+    package_metadata["cp_id"] = root.xpath(
         "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATIONCODE']/text()"
     )[0]
 
-    # Metadata from the preservation data of the representation
-    premis_path = Path(
-        path, "data/representations/representation_1/metadata/preservation/premis.xml"
-    )
-    premis_namespaces = {
-        "premis": "http://www.loc.gov/premis/v3",
-        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    }
-    root_premis = etree.parse(str(premis_path))
-    metadata["original_filename"] = root_premis.xpath(
-        "/premis:premis/premis:object[@xsi:type='premis:file']/premis:originalName/text()",
-        namespaces=premis_namespaces,
-    )[0]
-    metadata["md5"] = root_premis.xpath(
-        "/premis:premis/premis:object[@xsi:type='premis:file']/premis:objectCharacteristics/premis:fixity/premis:messageDigest/text()",
-        namespaces=premis_namespaces,
-    )[0]
 
-    # Generated metadata
-    metadata["pid"] = get_pid(configParser.app_cfg["aip-creator"]["pid_url"])
 
     # Batch ID
-    metadata["batch_id"] = ""
+    package_metadata["batch_id"] = ""
     try:
-        metadata["batch_id"] = bag.info["Meemoo-Batch-Identifier"]
+        package_metadata["batch_id"] = bag.info["Meemoo-Batch-Identifier"]
     except KeyError:
         pass
 
     # Meemoo workflow
-    metadata["meemoo_workflow"] = ""
+    package_metadata["meemoo_workflow"] = ""
     try:
-        metadata["meemoo_workflow"] = bag.info["Meemoo-Workflow"]
+        package_metadata["meemoo_workflow"] = bag.info["Meemoo-Workflow"]
     except KeyError:
         pass
 
-    return metadata
+    package_metadata["items"] = items_metadata
+
+    return package_metadata
 
 
-def create_sidecar(path: str, metadata: dict):
+def create_sidecar(path: str, metadata: dict, item: dict):
     # Parameters not present in the input XML
-    original_filename = metadata["original_filename"]
+    original_filename = item["filename"]
+    md5 = item["fixity"]
+    pid = item["pid"]
     cp_name = metadata["cp_name"]
     cp_id = metadata["cp_id"]
-    md5 = metadata["md5"]
-    pid = metadata["pid"]
     batch_id = metadata["batch_id"]
     meemoo_workflow = metadata["meemoo_workflow"]
 
-    # The XSLT
-    xslt_path = Path("metadata.xslt")
+    # Check if item is collateral, currently only srts are supported
+    if item["is_collateral"]:
+        xslt_path = Path("collateral_metadata.xslt")
+    else:
+        xslt_path = Path("essence_metadata.xslt")
     xslt = etree.parse(str(xslt_path.resolve()))
 
     # Descriptive metadata
@@ -145,14 +147,15 @@ def create_sidecar(path: str, metadata: dict):
         batch_id=etree.XSLT.strparam(batch_id),
         meemoo_workflow=etree.XSLT.strparam(meemoo_workflow),
     ).getroot()
+
     return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
 
 def handle_event(event: Event):
     """
     Handles an incoming pulsar event.
-    If the event has a succesful outcome, a sidecar will be created.
-    Sidecar and essence will be moved to the configured aip_folder and an event will be produced.
+    If the event has a succesful outcome, one or more sidecar(s) will be created.
+    Sidecar(s) and essence(s) will be moved to the configured aip_folder and one or more event(s) will be produced.
     """
     if not event.has_successful_outcome():
         log.info(f"Dropping non succesful event: {event.get_data()}")
@@ -166,42 +169,43 @@ def handle_event(event: Event):
     # Extract metadata from bag info and mets xmls
     metadata: dict = extract_metadata(path)
 
-    # Build a mediahaven sidecar with extracted xmls
-    sidecar = create_sidecar(path, metadata)
+    # Build one or more mediahaven sidecar(s) with extracted xmls
+    for item in metadata["items"]:
+        sidecar = create_sidecar(path, metadata, item)
 
-    filename = metadata["filename"]
-    essence_filepath = Path(path, filename)
-    sidecar_filepath = Path(path, filename).with_suffix(".xml")
+        filename = item["filepath"]
+        essence_filepath = Path(path, filename)
+        sidecar_filepath = Path(path, filename).with_suffix(".xml")
 
-    # Write sidecar to file
-    with open(sidecar_filepath, "wb") as xml_file:
-        xml_file.write(sidecar)
+        # Write sidecar to file
+        with open(sidecar_filepath, "wb") as xml_file:
+            xml_file.write(sidecar)
 
-    # Move file(s) to AIP folder with PID as filename(s)
-    aip_filepath = Path(
-        configParser.app_cfg["aip-creator"]["aip_folder"], metadata["pid"]
-    )
+        # Move file(s) to AIP folder with PID as filename(s)
+        aip_filepath = Path(
+            configParser.app_cfg["aip-creator"]["aip_folder"], item["pid"]
+        )
 
-    shutil.move(essence_filepath, aip_filepath.with_suffix(metadata["file_extension"]))
-    shutil.move(sidecar_filepath, aip_filepath.with_suffix(".xml"))
+        shutil.move(essence_filepath, aip_filepath.with_suffix(metadata["file_extension"]))
+        shutil.move(sidecar_filepath, aip_filepath.with_suffix(".xml"))
 
-    # Send event on topic
-    data = {
-        "source": path,
-        "host": configParser.app_cfg["aip-creator"]["host"],
-        "paths": [
-            str(aip_filepath.with_suffix(metadata["file_extension"])),
-            str(aip_filepath.with_suffix(".xml")),
-        ],
-        "cp_id": metadata["cp_id"],
-        "type": "pair",
-        "pid": metadata["pid"],
-        "outcome": EventOutcome.SUCCESS,
-        "message": f"AIP created: sidecar ingest for {filename}",
-    }
+        # Send event on topic
+        data = {
+            "source": path,
+            "host": configParser.app_cfg["aip-creator"]["host"],
+            "paths": [
+                str(aip_filepath.with_suffix(metadata["file_extension"])),
+                str(aip_filepath.with_suffix(".xml")),
+            ],
+            "cp_id": metadata["cp_id"],
+            "type": "pair",
+            "pid": item["pid"],
+            "outcome": EventOutcome.SUCCESS,
+            "message": f"AIP created: sidecar ingest for {filename}",
+        }
 
-    log.info(data["message"])
-    send_event(data, path, event.correlation_id)
+        log.info(data["message"])
+        send_event(data, path, event.correlation_id)
 
 
 def send_event(data: dict, subject: str, correlation_id: str):
