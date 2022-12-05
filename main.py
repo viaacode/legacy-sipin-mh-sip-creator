@@ -169,6 +169,8 @@ def handle_event(event: Event):
     # Extract metadata from bag info and mets xmls
     metadata: dict = extract_metadata(path)
 
+    log.debug(f"SIP has {metadata['items']} item(s).")
+
     # Build one or more mediahaven sidecar(s) with extracted xmls
     for item in metadata["items"]:
         sidecar = create_sidecar(path, metadata, item)
