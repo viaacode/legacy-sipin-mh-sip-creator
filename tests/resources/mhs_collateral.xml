@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
+  <mhs:Dynamic>
+    <ingest_workflow>sipin</ingest_workflow>
+    <CP>CP name</CP>
+    <CP_id>CP ID</CP_id>
+    <sp_name>sipin</sp_name>
+    <PID>PID_srt</PID>
+    <md5>md5</md5>
+    <dc_rights_licenses>
+      <multiselect>VIAA-PUBLIEK-METADATA-LTD</multiselect>
+      <multiselect>VIAA-INTRA_CP-METADATA-ALL</multiselect>
+      <multiselect>VIAA-INTRA_CP-CONTENT</multiselect>
+      <multiselect>VIAA-ONDERZOEK</multiselect>
+      <multiselect>VIAA-ONDERWIJS</multiselect>
+      <multiselect>BEZOEKERTOOL-CONTENT</multiselect>
+      <multiselect>BEZOEKERTOOL-METADATA-ALL</multiselect>
+    </dc_rights_licenses>
+    <dc_relations>
+      <is_deel_van>PID</is_deel_van>
+    </dc_relations>
+  </mhs:Dynamic>
+</mhs:Sidecar>
