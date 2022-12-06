@@ -140,6 +140,7 @@ def create_sidecar(path: str, metadata: dict, item: dict):
     batch_id = metadata["batch_id"]
     meemoo_workflow = metadata["meemoo_workflow"]
 
+    collateral_pid = ""
     if len(metadata["items"]) > 1:
         collateral_pid = next(item["pid"] for item in metadata["items"] if item["is_collateral"])
 
