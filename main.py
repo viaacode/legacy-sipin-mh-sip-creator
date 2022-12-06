@@ -70,11 +70,11 @@ def extract_metadata(path: str):
             item_metadata = {
                     "filepath": filepath,
                     "filename": Path(filepath).name,
-                    "file_extension": Path(filepath).suffix[1:],
+                    "file_extension": Path(filepath).suffix,
                     "fixity": fixity["md5"]
                 }
             if Path(filepath).suffix in [".srt"]:
-                item_metadata["pid"] = f"{package_metadata['pid']}_{item_metadata['file_extension']}"
+                item_metadata["pid"] = f"{package_metadata['pid']}_{item_metadata['file_extension'][1:]}"
                 item_metadata["is_collateral"] = True
             else:
                 item_metadata["pid"] = package_metadata['pid']
