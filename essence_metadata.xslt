@@ -8,6 +8,7 @@
     <xsl:param name="premis_path" />
     <xsl:param name="batch_id" />
     <xsl:param name="meemoo_workflow" />
+    <xsl:param name="collateral_pid" />
 
     <xsl:variable name="premis_source" select="document($premis_path)/premis:premis" />
     <xsl:variable name="sp_name">
@@ -104,6 +105,11 @@
                     <xsl:apply-templates select="dcterms:hasPart[@xsi:type='premis:intellectualEntity']" />
                     <xsl:apply-templates select="dcterms:isPartOf[@xsi:type='premis:intellectualEntity']" />
                     <xsl:apply-templates select="dcterms:relation[@xsi:type='premis:intellectualEntity']" />
+                    <xsl:if test="$collateral_pid">
+                        <xsl:element name="bevat">
+                            <xsl:value-of select="$collateral_pid" />
+                        </xsl:element>
+                    </xsl:if>
                 </xsl:element>
                 <!-- Publishers -->
                 <xsl:element name="dc_publishers">

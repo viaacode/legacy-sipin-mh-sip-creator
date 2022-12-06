@@ -140,6 +140,9 @@ def create_sidecar(path: str, metadata: dict, item: dict):
     batch_id = metadata["batch_id"]
     meemoo_workflow = metadata["meemoo_workflow"]
 
+    if len(metadata["items"]) > 1:
+        collateral_pid = next(item["pid"] for item in metadata["items"] if item["is_collateral"])
+
     # Check if item is collateral, currently only srts are supported
     if item["is_collateral"]:
         xslt_path = Path("collateral_metadata.xslt")
@@ -164,6 +167,7 @@ def create_sidecar(path: str, metadata: dict, item: dict):
         premis_path=etree.XSLT.strparam(str(premis_path)),
         batch_id=etree.XSLT.strparam(batch_id),
         meemoo_workflow=etree.XSLT.strparam(meemoo_workflow),
+        collateral_pid=etree.XSLT.strparam(collateral_pid)
     ).getroot()
 
     return etree.tostring(tr, pretty_print=True, encoding="UTF-8", xml_declaration=True)
