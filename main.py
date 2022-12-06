@@ -88,7 +88,7 @@ def extract_metadata(path: str):
                 "file_extension": Path(filepath).suffix,
                 "fixity": fixity["md5"],
             }
-            if item_metadata["suffix"] in collateral_suffixes:
+            if item_metadata["file_extension"] in collateral_suffixes:
                 item_metadata[
                     "pid"
                 ] = f"{package_metadata['pid']}_{item_metadata['file_extension'][1:]}"
