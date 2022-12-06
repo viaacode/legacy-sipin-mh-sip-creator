@@ -52,14 +52,30 @@ def get_pid(url):
 
 
 def extract_metadata(path: str):
+    collateral_suffixes = [".srt", ".SRT"]
     package_metadata = {}
     items_metadata = []
 
     # Generated metadata
     package_metadata["pid"] = get_pid(configParser.app_cfg["aip-creator"]["pid_url"])
-    
+
     # Metadata from the bag
     bag = bagit.Bag(path)
+
+    # Metadata from the preservation data of the representation
+    premis_path = Path(
+        path, "data/representations/representation_1/metadata/preservation/premis.xml"
+    )
+    premis_namespaces = {
+        "premis": "http://www.loc.gov/premis/v3",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    }
+    root_premis = etree.parse(str(premis_path))
+    original_filenames: list[str] = root_premis.xpath(
+        "/premis:premis/premis:object[@xsi:type='premis:file']/premis:originalName/text()",
+        namespaces=premis_namespaces,
+    )
+
 
     # Regex to match essence paths in bag
     regex = re.compile("data/representations/.*/data/.*")
@@ -68,17 +84,20 @@ def extract_metadata(path: str):
         if regex.match(filepath):
             log.debug(f"'{filepath}' matches regex.")
             item_metadata = {
-                    "filepath": filepath,
-                    "filename": Path(filepath).name,
-                    "file_extension": Path(filepath).suffix,
-                    "fixity": fixity["md5"]
-                }
-            if Path(filepath).suffix in [".srt"]:
-                item_metadata["pid"] = f"{package_metadata['pid']}_{item_metadata['file_extension'][1:]}"
+                "filepath": filepath,
+                "file_extension": Path(filepath).suffix,
+                "fixity": fixity["md5"],
+            }
+            if item_metadata["suffix"] in collateral_suffixes:
+                item_metadata[
+                    "pid"
+                ] = f"{package_metadata['pid']}_{item_metadata['file_extension'][1:]}"
                 item_metadata["is_collateral"] = True
+                item_metadata["original_filename"] = next(filename for filename in original_filenames if filename.endswith(tuple(collateral_suffixes)))
             else:
-                item_metadata["pid"] = package_metadata['pid']
+                item_metadata["pid"] = package_metadata["pid"]
                 item_metadata["is_collateral"] = False
+                item_metadata["original_filename"] = next(filename for filename in original_filenames if not filename.endswith(tuple(collateral_suffixes)))
 
             items_metadata.append(item_metadata)
 
@@ -91,8 +110,6 @@ def extract_metadata(path: str):
     package_metadata["cp_id"] = root.xpath(
         "//*[local-name() = 'metsHdr']/*[local-name() = 'agent' and @ROLE = 'CREATOR' and @TYPE = 'ORGANIZATION'][1]/*[local-name() = 'note' and @*[local-name()='NOTETYPE'] = 'IDENTIFICATIONCODE']/text()"
     )[0]
-
-
 
     # Batch ID
     package_metadata["batch_id"] = ""
@@ -115,7 +132,7 @@ def extract_metadata(path: str):
 
 def create_sidecar(path: str, metadata: dict, item: dict):
     # Parameters not present in the input XML
-    original_filename = item["filename"]
+    original_filename = item["original_filename"]
     md5 = item["fixity"]
     pid = item["pid"]
     cp_name = metadata["cp_name"]
