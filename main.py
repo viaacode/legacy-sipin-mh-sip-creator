@@ -82,7 +82,6 @@ def extract_metadata(path: str):
 
     for filepath, fixity in bag.entries.items():
         if regex.match(filepath):
-            log.debug(f"'{filepath}' matches regex.")
             item_metadata = {
                 "filepath": filepath,
                 "file_extension": Path(filepath).suffix,
@@ -229,8 +228,6 @@ def handle_event(event: Event):
             "message": f"AIP created: sidecar ingest for {filename}",
         }
 
-        log.debug(data["pid"])
-        log.debug(str(data["paths"]))
         log.info(data["message"])
         send_event(data, path, event.correlation_id)
 
