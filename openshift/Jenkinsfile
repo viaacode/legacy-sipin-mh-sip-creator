@@ -9,7 +9,7 @@ pipeline {
           labels:
             component: builder
             lang: ${getBaseImageName()}
-            app: sipin-aip-creator
+            app: legacy-sipin-mh-sip-creator
         spec:
           containers:
           - name: default
@@ -36,7 +36,7 @@ pipeline {
         BASE_IMG_NAME = "${getBaseImageName()}"
         OC_URL = 'https://c113-e.private.eu-de.containers.cloud.ibm.com:30227'
         JIRA_URL = 'meemoo.atlassian.net'
-        APP_NAME = 'sipin-aip-creator'
+        APP_NAME = 'legacy-sipin-mh-sip-creator'
     }
 
     stages {
