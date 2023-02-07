@@ -3,22 +3,22 @@ kind: Template
 metadata:
   annotations:
     tags: "exec"
-  name: "sipin-aip-creator"
+  name: "legacy-sipin-mh-sip-creator"
   labels:
-    app: "sipin-aip-creator"
+    app: "legacy-sipin-mh-sip-creator"
 objects:
   - kind: Service
     apiVersion: v1
     metadata:
-      name: "sipin-aip-creator-${env}"
+      name: "legacy-sipin-mh-sip-creator-${env}"
       namespace: "sipin"
       labels:
-        app: "sipin-aip-creator"
-        app.kubernetes.io/component: "sipin-aip-creator-${env}"
-        app.kubernetes.io/instance: "sipin-aip-creator-${env}"
-        app.kubernetes.io/name: "sipin-aip-creator"
-        app.kubernetes.io/part-of: "sipin-aip-creator"
-        app.openshift.io/runtime: "sipin-aip-creator"
+        app: "legacy-sipin-mh-sip-creator"
+        app.kubernetes.io/component: "legacy-sipin-mh-sip-creator-${env}"
+        app.kubernetes.io/instance: "legacy-sipin-mh-sip-creator-${env}"
+        app.kubernetes.io/name: "legacy-sipin-mh-sip-creator"
+        app.kubernetes.io/part-of: "legacy-sipin-mh-sip-creator"
+        app.openshift.io/runtime: "legacy-sipin-mh-sip-creator"
         app.openshift.io/runtime-version: "${env}"
         env: ${env}
     spec:
@@ -28,7 +28,7 @@ objects:
           targetPort: ${{svc_port}}
           name: http
       selector:
-        app: "sipin-aip-creator"
+        app: "legacy-sipin-mh-sip-creator"
         env: ${env}
       clusterIP:
       type: ClusterIP
@@ -40,35 +40,35 @@ objects:
     metadata:
       annotations:
         alpha.image.policy.openshift.io/resolve-names: "*"
-      name: "sipin-aip-creator-${env}"
+      name: "legacy-sipin-mh-sip-creator-${env}"
       namespace: "sipin"
       labels:
-        app: "sipin-aip-creator"
-        app.kubernetes.io/component: "sipin-aip-creator-${env}"
-        app.kubernetes.io/instance: "sipin-aip-creator-${env}"
-        app.kubernetes.io/name: "sipin-aip-creator"
-        app.kubernetes.io/part-of: "sipin-aip-creator"
-        app.openshift.io/runtime: "sipin-aip-creator"
+        app: "legacy-sipin-mh-sip-creator"
+        app.kubernetes.io/component: "legacy-sipin-mh-sip-creator-${env}"
+        app.kubernetes.io/instance: "legacy-sipin-mh-sip-creator-${env}"
+        app.kubernetes.io/name: "legacy-sipin-mh-sip-creator"
+        app.kubernetes.io/part-of: "legacy-sipin-mh-sip-creator"
+        app.openshift.io/runtime: "legacy-sipin-mh-sip-creator"
         app.openshift.io/runtime-version: ${env}
         env: ${env}
     spec:
       replicas: 0
       selector:
         matchLabels:
-          app: "sipin-aip-creator"
+          app: "legacy-sipin-mh-sip-creator"
           env: ${env}
       template:
         metadata:
           creationTimestamp: null
           labels:
-            app: "sipin-aip-creator"
-            deploymentconfig: "sipin-aip-creator-${env}"
+            app: "legacy-sipin-mh-sip-creator"
+            deploymentconfig: "legacy-sipin-mh-sip-creator-${env}"
             env: ${env}
           annotations:
             openshift.io/generated-by: OpenShiftWebConsole
         spec:
           containers:
-            - name: "sipin-aip-creator-${env}"
+            - name: "legacy-sipin-mh-sip-creator-${env}"
               terminationMessagePath: /dev/termination-log
               resources:
                 limits:
@@ -83,7 +83,7 @@ objects:
               imagePullPolicy: IfNotPresent
               terminationMessagePolicy: File
               image: >-
-                image-registry.openshift-image-registry.svc:5000/sipin/sipin-aip-creator:${env}
+                image-registry.openshift-image-registry.svc:5000/sipin/legacy-sipin-mh-sip-creator:${env}
           restartPolicy: Always
           terminationGracePeriodSeconds: 30
           dnsPolicy: ClusterFirst
