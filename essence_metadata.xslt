@@ -171,6 +171,14 @@
                         <xsl:value-of select="'video'" />
                     </xsl:element>
                 </xsl:if>
+                <!-- Collection box barcode -->
+                <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesType[text() = 'collection_box_barcode']" />
+                <!-- Carrier barcode -->
+                <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesType[text() = 'carrier_barcode']" />
+                <!-- Transport box barcode -->
+                <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesType[text() = 'transport_box_barcode']" />
+                <!-- Brand -->
+                <xsl:apply-templates select="$premis_source/premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesExtension/schema:brand/schema:name" />
                 <!-- Batch ID -->
                 <xsl:if test="$batch_id">
                     <xsl:element name="batch_id">
@@ -760,6 +768,34 @@
         </xsl:element>
         <xsl:element name="player_model">
             <xsl:value-of select="../premis:agentExtension/schema:model/text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Collection box barcode -->
+    <xsl:template
+        match="premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesType[text() = 'collection_box_barcode']">
+        <xsl:element name="collection_box_barcode">
+            <xsl:value-of select="../premis:significantPropertiesValue/text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Carrier barcode -->
+    <xsl:template
+        match="premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesType[text() = 'carrier_barcode']">
+        <xsl:element name="carrier_barcode">
+            <xsl:value-of select="../premis:significantPropertiesValue/text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Transport box barcode -->
+    <xsl:template
+        match="premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesType[text() = 'transport_box_barcode']">
+        <xsl:element name="transport_box_barcode">
+            <xsl:value-of select="../premis:significantPropertiesValue/text()" />
+        </xsl:element>
+    </xsl:template>
+    <!-- Brand -->
+    <xsl:template
+        match="premis:object[@xsi:type='premis:representation']/premis:significantProperties/premis:significantPropertiesExtension/schema:brand/schema:name">
+        <xsl:element name="brand">
+            <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
