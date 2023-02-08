@@ -13,6 +13,7 @@ from tests import load_resource
     [
         ("premis.xml", "mhs.xml"),
         ("premis_xdcam.xml", "mhs_xdcam.xml"),
+        ("premis_xdcam_extra.xml", "mhs_xdcam_extra.xml"),
     ],
 )
 def test_transform(premis_path, output_path):
@@ -50,6 +51,7 @@ def test_transform(premis_path, output_path):
 
     # Assert
     assert transformed_xml == expected_output_xml
+
 
 @pytest.mark.parametrize(
     "premis_path,output_path",
@@ -92,6 +94,7 @@ def test_transform_collateral(premis_path, output_path):
 
     # Assert
     assert transformed_xml == expected_output_xml
+
 
 def test_transform_batch():
     # Arrange

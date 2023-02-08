@@ -1,0 +1,123 @@
+<premis:premis xmlns:premis="http://www.loc.gov/premis/v3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:schema="http://schema.org/"
+    version="3.0">
+    <premis:object xsi:type="premis:intellectualEntity">
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>uuid</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>865b767d-05f9-49d5-ba54-e9e82acec30d</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>local_id</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>localid</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>Object_number</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>objnum</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:relationship>
+            <premis:relationshipType authority="relationshipType"
+                authorityURI="http://id.loc.gov/vocabulary/preservation/relationshipType"
+                valueURI="http://id.loc.gov/vocabulary/preservation/relationshipType/str">structural</premis:relationshipType>
+            <premis:relationshipSubtype authority="relationshipSubType"
+                authorityURI="http://id.loc.gov/vocabulary/preservation/relationshipSubType"
+                valueURI="http://id.loc.gov/vocabulary/preservation/relationshipSubType/isr">is
+                represented by</premis:relationshipSubtype>
+            <premis:relatedObjectIdentifier>
+                <premis:relatedObjectIdentifierType>UUID</premis:relatedObjectIdentifierType>
+                <premis:relatedObjectIdentifierValue>c7a2fe3d-81f0-4d48-a5e8-afdee96aeace</premis:relatedObjectIdentifierValue>
+            </premis:relatedObjectIdentifier>
+        </premis:relationship>
+    </premis:object>
+
+    <premis:object xsi:type="premis:representation">
+        <premis:objectIdentifier>
+            <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>uuid-7507ec4a-39e0-4ddd-8c7e-95bdaa7bbbc6</premis:objectIdentifierValue>
+        </premis:objectIdentifier>
+        <premis:storage>
+            <premis:storageMedium>XDCAM</premis:storageMedium>
+        </premis:storage>
+        <premis:significantProperties>
+            <premis:significantPropertiesType>collection_box_barcode</premis:significantPropertiesType>
+            <premis:significantPropertiesValue>Collection box barcode</premis:significantPropertiesValue>
+        </premis:significantProperties>
+        <premis:significantProperties>
+            <premis:significantPropertiesType>carrier_barcode</premis:significantPropertiesType>
+            <premis:significantPropertiesValue>Carrier barcode</premis:significantPropertiesValue>
+        </premis:significantProperties>
+        <premis:significantProperties>
+            <premis:significantPropertiesType>transport_box_barcode</premis:significantPropertiesType>
+            <premis:significantPropertiesValue>Transport box barcode</premis:significantPropertiesValue>
+        </premis:significantProperties>
+        <premis:significantProperties>
+            <premis:significantPropertiesExtension>
+                <schema:brand>
+                    <schema:name>Brand</schema:name>
+                </schema:brand>
+            </premis:significantPropertiesExtension>
+        </premis:significantProperties>
+    </premis:object>
+
+    <premis:event>
+        <premis:eventIdentifier>
+            <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+            <premis:eventIdentifierValue>uuid-f0513e06-4c57-4faf-a758-042043d99b81</premis:eventIdentifierValue>
+        </premis:eventIdentifier>
+        <premis:eventType>DIGITIZATION</premis:eventType>
+        <premis:eventDateTime>2022-05-17T11:50:13</premis:eventDateTime>
+        <premis:eventDetailInformation>
+            <premis:eventDetail />
+        </premis:eventDetailInformation>
+        <premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifierType>VIAA SP Agent ID</premis:linkingAgentIdentifierType>
+            <premis:linkingAgentIdentifierValue>OR-id</premis:linkingAgentIdentifierValue>
+            <premis:linkingAgentRole
+                valueURI="http://id.loc.gov/vocabulary/preservation/eventRelatedAgentRole/imp">
+                implementer</premis:linkingAgentRole>
+        </premis:linkingAgentIdentifier>
+        <premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifierType>UUID</premis:linkingAgentIdentifierType>
+            <premis:linkingAgentIdentifierValue>uuid-1cc1fe7a-da78-4c53-847a-0fd141ce2d3b</premis:linkingAgentIdentifierValue>
+            <premis:linkingAgentRole>player</premis:linkingAgentRole>
+        </premis:linkingAgentIdentifier>
+        <premis:linkingObjectIdentifier>
+            <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+            <premis:linkingObjectIdentifierValue>uuid-4e475706-2752-4f77-9069-1f71c0e22572</premis:linkingObjectIdentifierValue>
+            <premis:linkingObjectRole
+                valueURI="http://id.loc.gov/vocabulary/preservation/eventRelatedObjectRole/out">
+                outcome</premis:linkingObjectRole>
+        </premis:linkingObjectIdentifier>
+        <premis:linkingObjectIdentifier>
+            <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+            <premis:linkingObjectIdentifierValue>uuid-7507ec4a-39e0-4ddd-8c7e-95bdaa7bbbc6</premis:linkingObjectIdentifierValue>
+            <premis:linkingObjectRole
+                valueURI="http://id.loc.gov/vocabulary/preservation/eventRelatedObjectRole/out">
+                source</premis:linkingObjectRole>
+        </premis:linkingObjectIdentifier>
+    </premis:event>
+
+    <premis:agent>
+        <premis:agentIdentifier>
+            <premis:agentIdentifierType>VIAA SP Agent ID</premis:agentIdentifierType>
+            <premis:agentIdentifierValue>OR-id</premis:agentIdentifierValue>
+        </premis:agentIdentifier>
+        <premis:agentName>SP name</premis:agentName>
+        <premis:agentType>SP Agent</premis:agentType>
+    </premis:agent>
+
+    <premis:agent>
+        <premis:agentIdentifier>
+            <premis:agentIdentifierType>UUID</premis:agentIdentifierType>
+            <premis:agentIdentifierValue>uuid-1cc1fe7a-da78-4c53-847a-0fd141ce2d3b</premis:agentIdentifierValue>
+        </premis:agentIdentifier>
+        <premis:agentName>SONY PDW-U2</premis:agentName>
+        <premis:agentType>player</premis:agentType>
+        <premis:agentExtension>
+            <schema:model>PDW-U2</schema:model>
+            <schema:brand>
+                <schema:name>SONY</schema:name>
+            </schema:brand>
+            <schema:serialNumber>0000000</schema:serialNumber>
+        </premis:agentExtension>
+    </premis:agent>
+</premis:premis>
