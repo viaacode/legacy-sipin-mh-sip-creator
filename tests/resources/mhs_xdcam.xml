@@ -164,5 +164,9 @@
     <player_serial_number>0000000</player_serial_number>
     <player_model>PDW-U2</player_model>
     <type_viaa>video</type_viaa>
+    <dimensions>
+      <height_in_mm>400</height_in_mm>
+      <width_in_mm>500</width_in_mm>
+    </dimensions>
   </mhs:Dynamic>
 </mhs:Sidecar>

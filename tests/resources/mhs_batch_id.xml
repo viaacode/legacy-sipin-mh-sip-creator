@@ -156,5 +156,9 @@
     <dc_description_programme>Programmabeschrijving</dc_description_programme>
     <ebu_objectType>Object type</ebu_objectType>
     <batch_id>Batch ID</batch_id>
+    <dimensions>
+      <height_in_mm>400</height_in_mm>
+      <width_in_mm>500</width_in_mm>
+    </dimensions>
   </mhs:Dynamic>
 </mhs:Sidecar>

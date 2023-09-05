@@ -186,6 +186,17 @@
                         <xsl:value-of select="$batch_id" />
                     </xsl:element>
                 </xsl:if>
+                <!-- Dimensions -->
+                <xsl:if test="schema:height and schema:width">
+                    <xsl:element name="dimensions">
+                        <xsl:element name="height_in_mm">
+                            <xsl:value-of select="concat(schema:height/schema:value, 0)" />
+                        </xsl:element>
+                        <xsl:element name="width_in_mm">
+                            <xsl:value-of select="concat(schema:width/schema:value, 0)" />
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:if>
             </xsl:element>
         </mhs:Sidecar>
     </xsl:template>
