@@ -169,3 +169,37 @@ def test_transform_meemoo_workflow():
 
     # Assert
     assert transformed_xml.decode("UTF-8") == expected_output_xml
+
+
+def test_transform_minimal():
+    # Arrange
+    metadata_path = Path("tests", "resources", "dc_minimal.xml")
+    premis_path = Path("tests", "resources", "premis.xml")
+    xslt_path = Path("essence_metadata.xslt")
+    cp_name = "CP name"
+    cp_id = "CP ID"
+    pid = "PID"
+    original_filename = "name"
+    md5 = "md5"
+
+    # Act
+    xslt = etree.parse(str(xslt_path.resolve()))
+    transform = etree.XSLT(xslt)
+    transformed = transform(
+        etree.parse(str(metadata_path)),
+        cp_name=etree.XSLT.strparam(cp_name),
+        cp_id=etree.XSLT.strparam(cp_id),
+        pid=etree.XSLT.strparam(pid),
+        original_filename=etree.XSLT.strparam(original_filename),
+        md5=etree.XSLT.strparam(md5),
+        premis_path=etree.XSLT.strparam(str(premis_path)),
+        batch_id=etree.XSLT.strparam(""),
+        meemoo_workflow=etree.XSLT.strparam(""),
+    )
+    transformed_xml = etree.tostring(
+        transformed, pretty_print=True, xml_declaration=True, encoding="UTF-8"
+    ).strip()
+    expected_output_xml = load_resource(Path("tests", "resources", "mhs_minimal.xml"))
+
+    # Assert
+    assert transformed_xml.decode("UTF-8") == expected_output_xml

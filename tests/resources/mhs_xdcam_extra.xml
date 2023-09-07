@@ -168,5 +168,9 @@
     <carrier_barcode>Carrier barcode</carrier_barcode>
     <transport_box_barcode>Transport box barcode</transport_box_barcode>
     <brand>Brand</brand>
+    <dimensions>
+      <height_in_mm>400</height_in_mm>
+      <width_in_mm>500</width_in_mm>
+    </dimensions>
   </mhs:Dynamic>
 </mhs:Sidecar>

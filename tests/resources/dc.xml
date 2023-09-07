@@ -134,4 +134,14 @@
     </dcterms:hasPart>
   </dcterms:isPartOf>
   <ebucore:type>Object type</ebucore:type>
+  <schema:height>
+    <schema:value>40</schema:value>
+    <schema:unitText>cm</schema:unitText>
+    <schema:unitCode>CMT</schema:unitCode>
+  </schema:height>
+  <schema:width>
+    <schema:value>50</schema:value>
+    <schema:unitText>cm</schema:unitText>
+    <schema:unitCode>CMT</schema:unitCode>
+  </schema:width>
 </metadata>
