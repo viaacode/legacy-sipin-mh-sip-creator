@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mhs:Sidecar xmlns:mhs="https://zeticon.mediahaven.com/metadata/22.1/mhs/" xmlns:mh="https://zeticon.mediahaven.com/metadata/22.1/mh/" version="22.1">
+  <mhs:Descriptive>
+    <mh:Title>Dit is een titel</mh:Title>
+    <mh:Description>Dit is een beschrijving</mh:Description>
+  </mhs:Descriptive>
+  <mhs:Dynamic>
+    <ingest_workflow>sipin</ingest_workflow>
+    <CP>CP name</CP>
+    <CP_id>CP ID</CP_id>
+    <sp_name>sipin</sp_name>
+    <PID>PID</PID>
+    <md5>md5</md5>
+    <dc_identifier_localid>localid</dc_identifier_localid>
+    <dc_identifier_localids>
+      <Object_number>objnum</Object_number>
+      <Bestandsnaam>name</Bestandsnaam>
+    </dc_identifier_localids>
+    <dc_types/>
+    <dc_coverages/>
+    <dc_subjects/>
+    <dc_rights_licenses/>
+    <dc_rights_rightsOwners/>
+    <dc_rights_rightsHolders/>
+    <dc_relations/>
+    <dc_publishers/>
+    <dc_languages/>
+    <dc_contributors/>
+    <dc_creators/>
+    <dc_description>Dit is een beschrijving</dc_description>
+    <dc_title>Dit is een titel</dc_title>
+    <dc_titles/>
+  </mhs:Dynamic>
+</mhs:Sidecar>
