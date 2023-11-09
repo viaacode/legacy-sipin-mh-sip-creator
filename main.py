@@ -2,6 +2,7 @@ from pathlib import Path
 import re
 import requests
 import shutil
+import urllib
 
 from lxml import etree
 from retry import retry
@@ -164,7 +165,7 @@ def create_sidecar(path: str, metadata: dict, item: dict):
         pid=etree.XSLT.strparam(pid),
         original_filename=etree.XSLT.strparam(original_filename),
         md5=etree.XSLT.strparam(md5),
-        premis_path=etree.XSLT.strparam(str(premis_path)),
+        premis_path=etree.XSLT.strparam(urllib.parse.quote(str(premis_path))),
         batch_id=etree.XSLT.strparam(batch_id),
         meemoo_workflow=etree.XSLT.strparam(meemoo_workflow),
         collateral_pid=etree.XSLT.strparam(collateral_pid)
